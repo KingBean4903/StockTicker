@@ -1,18 +1,15 @@
 package main
 
-type stockTickerServer struct {
-	stock.UnimplementedStockTickerServer
-}
 
 import (
-	"context"
+//	"context"
 	"log"
 	"math/rand"
 	"net"
-	"sync"
+//	"sync"
 	"time"
 	"google.golang.org/grpc"
-	"google.golang.org/credentials/secure"
+//	"google.golang.org/grpc/credentials/insecure"
 	stock "github.com/KingBean4903/StockTicker/stock"
 )
 
@@ -21,7 +18,7 @@ type stockTickerServer struct {
 }
 
 
-func (s *stockTickerServer) Subscriber(req *stock.StockRequest, stream stock.StockTicker_SubscribeServer) error {
+func (s *stockTickerServer) Subscribe(req *stock.StockRequest, stream stock.StockTicker_SubscribeServer) error {
 
 	for  {
 		
@@ -67,9 +64,9 @@ func main() {
 	}
 
 	s := grpc.NewServer()
-	stock.RegisterStockTickerServer(s, &stockTickerServer())
+	stock.RegisterStockTickerServer(s, &stockTickerServer{})
 
-	log.printf("Server started at %v", lis.Addr())
+	log.Printf("Server started at %v", lis.Addr())
 	if err := s.Serve(lis); err != nil {
 			log.Fatalf("Failed to start server: %v", err)
 	}
