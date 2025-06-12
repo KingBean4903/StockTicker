@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option go_package = "github.com/KingBean4903/StockTicker/stock";
+
+package stock;
+
+service StockTicker {
+
+  rpc Subscribe(StockRequest) returns (stream StockResponse) {}
+}
+
+message StockRequest {
+  repeated string symbols = 1;
+}
+
+message StockResponse {
+  string symbol = 1;
+  double price = 2;
+  int64 timestamp = 3;
+}
